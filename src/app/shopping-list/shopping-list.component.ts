@@ -2,6 +2,7 @@ import { Component, ElementRef, ContentChild, OnInit, OnDestroy } from '@angular
 import { Ingredient } from '../shared/ingredient.model';
 import { ShoppingListService } from './shopping-list.service';
 import { Subscription } from 'rxjs';
+import { LogginService } from '../logging.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -13,7 +14,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy{
   ingredientedSusbcription: Subscription;
   @ContentChild('nameInput', {static: true}) nameInput: ElementRef;
 
-  constructor(private shoppingListService: ShoppingListService){  
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private loggingService: LogginService){  
   }
 
   ngOnInit(){
@@ -21,6 +24,7 @@ export class ShoppingListComponent implements OnInit, OnDestroy{
     this.ingredientedSusbcription = this.shoppingListService.ingredientsChanged
     .subscribe((ingredients:Ingredient[]) => this.ingredients = ingredients
     );
+    this.loggingService.printLog('Hello from ShoppingComponent ngOnit');
   }
 
   ngOnDestroy(): void {
